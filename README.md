@@ -1,1 +1,2 @@
-# SanCristobalChapter.github.io
+WELCOME TO MEMBER INFO
+SanCristobalChapter
