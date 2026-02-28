@@ -22,6 +22,57 @@
     background-size: cover;
     background-position: center;
   }
+   /* Gallery styling */
+.gallery {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.gallery img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  transition: transform 0.3s;
+  cursor: pointer;
+}
+
+.gallery img:hover {
+  transform: scale(1.1);
+}
+
+/* Lightbox styling */
+#lightbox {
+  display: none;
+  position: fixed;
+  z-index: 10000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  justify-content: center;
+  align-items: center;
+}
+
+#lightbox img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 10px;
+}
+
+#close {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  font-size: 40px;
+  color: white;
+  cursor: pointer;
+}
 </style>
 </head>
 <body>
@@ -45,9 +96,33 @@
   <span id="close">&times;</span>
   <img id="lightbox-img" src="">
 </div>
+  <script>
+  const galleryItems = document.querySelectorAll('.gallery-item');
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+
+  galleryItems.forEach(item => {
+    item.addEventListener('click', () => {
+      lightbox.style.display = 'flex';
+      lightboxImg.src = item.src;
+    });
+  });
+
+  function closeLightbox() {
+    lightbox.style.display = 'none';
+  }
+
+  // Optional: close when clicking outside image
+  lightbox.addEventListener('click', e => {
+    if (e.target !== lightboxImg) {
+      lightbox.style.display = 'none';
+    }
+  });
+</script>
 </body>
 
 </html>
+
 
 
 
