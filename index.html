@@ -96,6 +96,9 @@
 </div>
 
 <script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script>
 const members = [
   {
     id: "M001",
@@ -121,7 +124,34 @@ const members = [
 
 const container = document.getElementById("members");
 
-members.forEach(member => {
+// Get ID from URL
+const urlParams = new URLSearchParams(window.location.search);
+const memberID = urlParams.get("member");
+
+if (memberID) {
+
+  const member = members.find(m => m.id === memberID);
+
+  if (member) {
+    showMember(member);
+  } else {
+    container.innerHTML = `
+      <div class="card">
+        <h2 style="color:red;">❌ MEMBER NOT VALID</h2>
+      </div>
+    `;
+  }
+
+} else {
+
+  container.innerHTML = `
+    <div class="card">
+      <h2>📷 Please scan membership QR code</h2>
+    </div>
+  `;
+}
+
+function showMember(member) {
 
   const card = document.createElement("div");
   card.className = "card";
@@ -135,34 +165,21 @@ members.forEach(member => {
       <p>GT : ${member.gt}</p>
       <p>MI : ${member.mi}</p>
       <p>CM During IR : ${member.cm}</p>
+      <h3 style="color:green;">✔ VERIFIED MEMBER</h3>
       <div id="qr-${member.id}"></div>
   `;
 
   container.appendChild(card);
 
+  const qrLink = window.location.origin + window.location.pathname + "?member=" + member.id;
+
   new QRCode(document.getElementById(`qr-${member.id}`), {
-      text: window.location.origin + window.location.pathname + "?member=" + member.id,
+      text: qrLink,
       width: 100,
       height: 100
   });
-
-});
-
-// Lightbox Fix
-const galleryItems = document.querySelectorAll('.gallery-item');
-const lightbox = document.getElementById('lightbox');
-const lightboxImg = document.getElementById('lightbox-img');
-
-galleryItems.forEach(item => {
-  item.addEventListener('click', () => {
-    lightbox.style.display = 'flex';
-    lightboxImg.src = item.src;
-  });
-});
-
-lightbox.addEventListener('click', () => {
-  lightbox.style.display = 'none';
-});
+}
+</script>
 </script>
 
 </body>
@@ -224,6 +241,7 @@ members.forEach(member => {
 </body>
 
 </html>
+
 
 
 
