@@ -80,48 +80,92 @@
   </style>
 </head>
 <body>
-  <div id="members"></div>
-    <img src="https://github.com/SanCristobalChapter/SanCristobalChapter.github.io/blob/main/Capture.PNG?raw=true" alt="Photo">
-    <h2>Arbhin John Stroller Uy</h2>
-    <p>Root Chapter : SAN CRISTOBAL</p>
-    <p>I.R Date : October 17 2010</p>
-    <p>GT : Jay Christian Paz</p>
-    <p>MI : Reggie Simbajon</p>
-    <p>CM During IR : Arven Bagos</p>
-  </div>
-  <div class="gallery">
-  <img src="https://github.com/SanCristobalChapter/SanCristobalChapter.github.io/blob/main/TGP%20SEAL%20PICTURE/CCTC%20Seal.png?raw=true" alt="Photo 1">
-  <img src="https://github.com/SanCristobalChapter/SanCristobalChapter.github.io/blob/main/TGP%20SEAL%20PICTURE/Tau_Gamma_Phi_seal%20(1).png?raw=true" alt="Photo 2">
-  <img src="https://github.com/SanCristobalChapter/SanCristobalChapter.github.io/blob/main/TGP%20SEAL%20PICTURE/San%20Cristobal%20Seal.png?raw=true" alt="Photo 3">
-  <img src="photo4.jpg" alt="Photo 4">
-    </div>
-    <!-- Lightbox -->
-<div id="lightbox" onclick="closeLightbox()">
-  <span id="close">&times;</span>
-  <img id="lightbox-img" src="">
+  <body>
+
+<div id="members"></div>
+
+<div class="gallery">
+  <img class="gallery-item" src="https://github.com/SanCristobalChapter/SanCristobalChapter.github.io/blob/main/TGP%20SEAL%20PICTURE/CCTC%20Seal.png?raw=true">
+  <img class="gallery-item" src="https://github.com/SanCristobalChapter/SanCristobalChapter.github.io/blob/main/TGP%20SEAL%20PICTURE/Tau_Gamma_Phi_seal%20(1).png?raw=true">
+  <img class="gallery-item" src="https://github.com/SanCristobalChapter/SanCristobalChapter.github.io/blob/main/TGP%20SEAL%20PICTURE/San%20Cristobal%20Seal.png?raw=true">
 </div>
-  <script>
-  const galleryItems = document.querySelectorAll('.gallery-item');
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightbox-img');
 
-  galleryItems.forEach(item => {
-    item.addEventListener('click', () => {
-      lightbox.style.display = 'flex';
-      lightboxImg.src = item.src;
-    });
-  });
+<div id="lightbox">
+  <span id="close">&times;</span>
+  <img id="lightbox-img">
+</div>
 
-  function closeLightbox() {
-    lightbox.style.display = 'none';
+<script>
+const members = [
+  {
+    id: "M001",
+    name: "Arbhin John Stroller Uy",
+    photo: "https://github.com/SanCristobalChapter/SanCristobalChapter.github.io/blob/main/Capture.PNG?raw=true",
+    root: "SAN CRISTOBAL",
+    ir: "October 17 2010",
+    gt: "Jay Christian Paz",
+    mi: "Reggie Simbajon",
+    cm: "Arven Bagos"
+  },
+  {
+    id: "M002",
+    name: "John Doe",
+    photo: "photo2.jpg",
+    root: "MANILA",
+    ir: "March 15 2015",
+    gt: "Michael Cruz",
+    mi: "Peter Ramos",
+    cm: "Daniel Reyes"
   }
+];
 
-  // Optional: close when clicking outside image
-  lightbox.addEventListener('click', e => {
-    if (e.target !== lightboxImg) {
-      lightbox.style.display = 'none';
-    }
+const container = document.getElementById("members");
+
+members.forEach(member => {
+
+  const card = document.createElement("div");
+  card.className = "card";
+
+  card.innerHTML = `
+      <img src="${member.photo}">
+      <h2>${member.name}</h2>
+      <p>Member ID : ${member.id}</p>
+      <p>Root Chapter : ${member.root}</p>
+      <p>I.R Date : ${member.ir}</p>
+      <p>GT : ${member.gt}</p>
+      <p>MI : ${member.mi}</p>
+      <p>CM During IR : ${member.cm}</p>
+      <div id="qr-${member.id}"></div>
+  `;
+
+  container.appendChild(card);
+
+  new QRCode(document.getElementById(`qr-${member.id}`), {
+      text: window.location.origin + window.location.pathname + "?member=" + member.id,
+      width: 100,
+      height: 100
   });
+
+});
+
+// Lightbox Fix
+const galleryItems = document.querySelectorAll('.gallery-item');
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+
+galleryItems.forEach(item => {
+  item.addEventListener('click', () => {
+    lightbox.style.display = 'flex';
+    lightboxImg.src = item.src;
+  });
+});
+
+lightbox.addEventListener('click', () => {
+  lightbox.style.display = 'none';
+});
+</script>
+
+</body>
 </script>
   <script>
 const members = [
@@ -180,6 +224,7 @@ members.forEach(member => {
 </body>
 
 </html>
+
 
 
 
