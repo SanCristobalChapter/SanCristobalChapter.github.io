@@ -86,14 +86,7 @@ if (!memberID) {
 // SHOW MEMBER
 function showMember(member) {
 
-  const today = new Date();
-  const expiryDate = new Date(member.expiry);
-  const isExpired = today > expiryDate;
-
-  const statusText = isExpired
-    ? `<h3 style="color:red;">🔴 MEMBERSHIP EXPIRED</h3>`
-    : `<h3 style="color:green;">🟢 VERIFIED ACTIVE MEMBER</h3>`;
-
+const statusText = `<h3 style="color:green;">🟢 VERIFIED MEMBER</h3>`;
   const card = document.createElement("div");
   card.className = "card";
 
@@ -129,6 +122,7 @@ function showMember(member) {
 
 </body>
 </html>
+
 
 
 
