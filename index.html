@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <title>Personal Digital ID</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
   <style>
-    body { font-family: Arial;
-    text-align: center;
-    background: linear-gradient(to right, #4facfe, #00f2fe); }
+    body {
+      font-family: Arial;
+      text-align: center;
+      background: linear-gradient(to right, #4facfe, #00f2fe);
+    }
+
     .card {
       background: white;
       padding: 20px;
@@ -15,75 +19,17 @@
       border-radius: 10px;
       box-shadow: 0 0 10px gray;
     }
-    img { width: 120px; border-radius: 50%; }
-     /* Gallery styling */
-.gallery {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 30px;
-}
 
-.gallery img {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  transition: transform 0.3s;
-  cursor: pointer;
-}
-
-.gallery img:hover {
-  transform: scale(1.1);
-}
-
-/* Lightbox styling */
-#lightbox {
-  display: none;
-  position: fixed;
-  z-index: 10000;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.8);
-  justify-content: center;
-  align-items: center;
-}
-
-#lightbox img {
-  max-width: 90%;
-  max-height: 90%;
-  border-radius: 10px;
-}
-
-#close {
-  position: absolute;
-  top: 20px;
-  right: 40px;
-  font-size: 40px;
-  color: white;
-  cursor: pointer;
-}
-
-  </style>
- <style>
-  body {
-    font-family: Arial;
-    text-align: center;
-    background: url('https://github.com/SanCristobalChapter/SanCristobalChapter.github.io/blob/main/TGP%20SEAL%20PICTURE/San%20Cristobal%20Seal.png?raw=true') no-repeat center center;
-    background-size: cover;
-    background-position: center;
-  }
+    img {
+      width: 120px;
+      border-radius: 50%;
+    }
   </style>
 </head>
+
 <body>
 
 <div id="members"></div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <script>
 
@@ -101,6 +47,7 @@ const members = [
     gt: "Jay Christian Paz",
     mi: "Reggie Simbajon",
     cm: "Arven Bagos",
+    expiry: "2026-12-31"
   },
   {
     id: "M002",
@@ -111,6 +58,7 @@ const members = [
     gt: "Michael Cruz",
     mi: "Peter Ramos",
     cm: "Daniel Reyes",
+    expiry: "2025-05-01"
   }
 ];
 
@@ -119,8 +67,6 @@ const members = [
 // ===============================
 
 const container = document.getElementById("members");
-
-// Read ?member=M001
 const params = new URLSearchParams(window.location.search);
 const memberID = params.get("member");
 
@@ -157,6 +103,10 @@ if (!memberID) {
 
 function showMember(member) {
 
+  const today = new Date();
+  const expiryDate = new Date(member.expiry);
+  const isExpired = today > expiryDate;
+
   const statusText = isExpired
     ? `<h3 style="color:red;">🔴 MEMBERSHIP EXPIRED</h3>`
     : `<h3 style="color:green;">🟢 VERIFIED ACTIVE MEMBER</h3>`;
@@ -173,14 +123,13 @@ function showMember(member) {
       <p>GT : ${member.gt}</p>
       <p>MI : ${member.mi}</p>
       <p>CM During IR : ${member.cm}</p>
-           <p><strong>Valid Until:</strong> ${member.expiry}</p>
+      <p><strong>Valid Until:</strong> ${member.expiry}</p>
       ${statusText}
       <div id="qr-${member.id}"></div>
   `;
 
   container.appendChild(card);
 
-  // Generate unique QR
   const qrLink =
     window.location.origin +
     window.location.pathname +
@@ -195,96 +144,6 @@ function showMember(member) {
 }
 
 </script>
-  <script>
-const members = [
-  {
-    id: "M001",
-    name: "Arbhin John Stroller Uy",
-    photo: "https://github.com/SanCristobalChapter/SanCristobalChapter.github.io/blob/main/Capture.PNG?raw=true",
-    root: "SAN CRISTOBAL",
-    ir: "October 17 2010",
-    gt: "Jay Christian Paz",
-    mi: "Reggie Simbajon",
-    cm: "Arven Bagos"
-  },
-  {
-    id: "M002",
-    name: "John Doe",
-    photo: "photo2.jpg",
-    root: "MANILA",
-    ir: "March 15 2015",
-    gt: "Michael Cruz",
-    mi: "Peter Ramos",
-    cm: "Daniel Reyes"
-  }
-];
 
-const container = document.getElementById("members");
-
-members.forEach(member => {
-
-  const card = document.createElement("div");
-  card.className = "card";
-
-  card.innerHTML = `
-      <img src="${member.photo}" alt="Photo">
-      <h2>${member.name}</h2>
-      <p>Member ID : ${member.id}</p>
-      <p>Root Chapter : ${member.root}</p>
-      <p>I.R Date : ${member.ir}</p>
-      <p>GT : ${member.gt}</p>
-      <p>MI : ${member.mi}</p>
-      <p>CM During IR : ${member.cm}</p>
-      <div id="qr-${member.id}"></div>
-  `;
-
-  container.appendChild(card);
-
-  // Generate UNIQUE QR for each member
-  new QRCode(document.getElementById(`qr-${member.id}`), {
-      text: window.location.href + "?member=" + member.id,
-      width: 100,
-      height: 100
-  });
-
-});
-</script>
 </body>
-
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
