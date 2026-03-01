@@ -95,25 +95,20 @@
 
 // MEMBERS DATABASE
 const members = [
-  const members = [
   {
     id: "M001",
     name: "Arbhin John Stroller Uy",
     photo: "https://github.com/SanCristobalChapter/SanCristobalChapter.github.io/blob/main/AJ%20Picture/FB_IMG_1728008858003.jpg?raw=true",
-
     extraPhotos: [
       "https://github.com/SanCristobalChapter/SanCristobalChapter.github.io/blob/main/AJ%20Picture/received_841651617329281.jpeg?raw=true",
-      "https://github.com/SanCristobalChapter/SanCristobalChapter.github.io/blob/main/AJ%20Picture/received_928791195623983.jpeg?raw=true",
-      "photo3.jpg"
+      "https://github.com/SanCristobalChapter/SanCristobalChapter.github.io/blob/main/AJ%20Picture/received_928791195623983.jpeg?raw=true"
     ],
-
     root: "SAN CRISTOBAL",
     ir: "October 17 2010",
     gt: "Jay Christian Paz",
     mi: "Reggie Simbajon",
     cm: "Arven Bagos"
-  }
-];
+  },
   {
     id: "M002",
     name: "John Doe",
@@ -122,8 +117,7 @@ const members = [
     ir: "March 15 2015",
     gt: "Michael Cruz",
     mi: "Peter Ramos",
-    cm: "Daniel Reyes",
-    expiry: "2025-05-01"
+    cm: "Daniel Reyes"
   }
 ];
 
@@ -132,7 +126,7 @@ const container = document.getElementById("members");
 const params = new URLSearchParams(window.location.search);
 const memberID = params.get("member");
 
-if (false) {
+if (!memberID) {
 
   container.innerHTML = `
     <div class="card">
@@ -161,21 +155,19 @@ if (false) {
 
 // SHOW MEMBER
 function showMember(member) {
-// IMAGE CLICK FUNCTION
-document.addEventListener("click", function(e) {
-  if (e.target.classList.contains("clickable-img")) {
-    document.getElementById("imgModal").style.display = "block";
-    document.getElementById("modalImg").src = e.target.src;
-  }
-});
 
-document.querySelector(".close").onclick = function() {
-  document.getElementById("imgModal").style.display = "none";
-};
   const statusText = `<h3 style="color:green;">🟢 VERIFIED MEMBER</h3>`;
 
   const card = document.createElement("div");
   card.className = "card";
+
+  // Build extra photos
+  let extraImagesHTML = "";
+  if (member.extraPhotos) {
+    member.extraPhotos.forEach(photo => {
+      extraImagesHTML += `<img src="${photo}" class="extra-img clickable-img">`;
+    });
+  }
 
   card.innerHTML = `
       <img src="${member.photo}" class="clickable-img">
@@ -187,7 +179,7 @@ document.querySelector(".close").onclick = function() {
       <p>MI : ${member.mi}</p>
       <p>CM During IR : ${member.cm}</p>
       ${statusText}
-      <img src="${member.bottomImage}" class="bottom-img">
+      ${extraImagesHTML}
       <div id="qr-${member.id}"></div>
   `;
 
@@ -206,6 +198,18 @@ document.querySelector(".close").onclick = function() {
   });
 }
 
+// IMAGE CLICK FUNCTION (GLOBAL)
+document.addEventListener("click", function(e) {
+  if (e.target.classList.contains("clickable-img")) {
+    document.getElementById("imgModal").style.display = "block";
+    document.getElementById("modalImg").src = e.target.src;
+  }
+});
+
+document.querySelector(".close").onclick = function() {
+  document.getElementById("imgModal").style.display = "none";
+};
+
 </script>
 <!-- IMAGE MODAL -->
 <div id="imgModal" class="modal">
@@ -214,6 +218,7 @@ document.querySelector(".close").onclick = function() {
 </div>
 </body>
 </html>
+
 
 
 
