@@ -80,25 +80,17 @@
   </style>
 </head>
 <body>
-  <body>
 
 <div id="members"></div>
 
-<div class="gallery">
-  <img class="gallery-item" src="https://github.com/SanCristobalChapter/SanCristobalChapter.github.io/blob/main/TGP%20SEAL%20PICTURE/CCTC%20Seal.png?raw=true">
-  <img class="gallery-item" src="https://github.com/SanCristobalChapter/SanCristobalChapter.github.io/blob/main/TGP%20SEAL%20PICTURE/Tau_Gamma_Phi_seal%20(1).png?raw=true">
-  <img class="gallery-item" src="https://github.com/SanCristobalChapter/SanCristobalChapter.github.io/blob/main/TGP%20SEAL%20PICTURE/San%20Cristobal%20Seal.png?raw=true">
-</div>
-
-<div id="lightbox">
-  <span id="close">&times;</span>
-  <img id="lightbox-img">
-</div>
-
-<script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <script>
+
+// ===============================
+// MEMBERS DATABASE (UNLIMITED)
+// ===============================
+
 const members = [
   {
     id: "M001",
@@ -108,7 +100,8 @@ const members = [
     ir: "October 17 2010",
     gt: "Jay Christian Paz",
     mi: "Reggie Simbajon",
-    cm: "Arven Bagos"
+    cm: "Arven Bagos",
+    expiry: "2026-12-31"
   },
   {
     id: "M002",
@@ -118,40 +111,62 @@ const members = [
     ir: "March 15 2015",
     gt: "Michael Cruz",
     mi: "Peter Ramos",
-    cm: "Daniel Reyes"
+    cm: "Daniel Reyes",
+    expiry: "2025-05-01"
   }
 ];
 
+// ===============================
+// VERIFICATION SYSTEM
+// ===============================
+
 const container = document.getElementById("members");
 
-// Get ID from URL
-const urlParams = new URLSearchParams(window.location.search);
-const memberID = urlParams.get("member");
+// Read ?member=M001
+const params = new URLSearchParams(window.location.search);
+const memberID = params.get("member");
 
-if (memberID) {
+if (!memberID) {
+
+  container.innerHTML = `
+    <div class="card">
+      <h2>📷 Scan Membership QR Code</h2>
+    </div>
+  `;
+
+} else {
 
   const member = members.find(m => m.id === memberID);
 
-  if (member) {
-    showMember(member);
-  } else {
+  if (!member) {
+
     container.innerHTML = `
       <div class="card">
         <h2 style="color:red;">❌ MEMBER NOT VALID</h2>
       </div>
     `;
+
+  } else {
+
+    showMember(member);
+
   }
-
-} else {
-
-  container.innerHTML = `
-    <div class="card">
-      <h2>📷 Please scan membership QR code</h2>
-    </div>
-  `;
 }
 
+// ===============================
+// SHOW VERIFIED MEMBER
+// ===============================
+
 function showMember(member) {
+
+  const today = new Date();
+  const expiryDate = new Date(member.expiry);
+
+  const isExpired = today > expiryDate;
+
+  const statusText = isExpired
+    ? `<h3 style="color:red;">🔴 MEMBERSHIP EXPIRED</h3>`
+    : `<h3 style="color:green;">🟢 VERIFIED ACTIVE MEMBER</h3>`;
 
   const card = document.createElement("div");
   card.className = "card";
@@ -159,19 +174,25 @@ function showMember(member) {
   card.innerHTML = `
       <img src="${member.photo}">
       <h2>${member.name}</h2>
-      <p>Member ID : ${member.id}</p>
+      <p><strong>Member ID:</strong> ${member.id}</p>
       <p>Root Chapter : ${member.root}</p>
       <p>I.R Date : ${member.ir}</p>
       <p>GT : ${member.gt}</p>
       <p>MI : ${member.mi}</p>
       <p>CM During IR : ${member.cm}</p>
-      <h3 style="color:green;">✔ VERIFIED MEMBER</h3>
+      <p><strong>Valid Until:</strong> ${member.expiry}</p>
+      ${statusText}
       <div id="qr-${member.id}"></div>
   `;
 
   container.appendChild(card);
 
-  const qrLink = window.location.origin + window.location.pathname + "?member=" + member.id;
+  // Generate unique QR
+  const qrLink =
+    window.location.origin +
+    window.location.pathname +
+    "?member=" +
+    member.id;
 
   new QRCode(document.getElementById(`qr-${member.id}`), {
       text: qrLink,
@@ -179,7 +200,7 @@ function showMember(member) {
       height: 100
   });
 }
-</script>
+
 </script>
 
 </body>
@@ -241,6 +262,7 @@ members.forEach(member => {
 </body>
 
 </html>
+
 
 
 
