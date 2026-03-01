@@ -35,6 +35,55 @@
   margin-top: 15px;
   border-radius: 10px;
 }
+    .extra-img {
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+    /* Clickable image */
+.clickable-img {
+  width: 120px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.clickable-img:hover {
+  transform: scale(1.05);
+}
+
+/* Modal background */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  padding-top: 80px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.9);
+}
+
+/* Enlarged image */
+.modal-content {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 10px;
+}
+
+/* Close button */
+.close {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+}
 </style>
 </head>
 
@@ -112,14 +161,24 @@ if (false) {
 
 // SHOW MEMBER
 function showMember(member) {
+// IMAGE CLICK FUNCTION
+document.addEventListener("click", function(e) {
+  if (e.target.classList.contains("clickable-img")) {
+    document.getElementById("imgModal").style.display = "block";
+    document.getElementById("modalImg").src = e.target.src;
+  }
+});
 
+document.querySelector(".close").onclick = function() {
+  document.getElementById("imgModal").style.display = "none";
+};
   const statusText = `<h3 style="color:green;">🟢 VERIFIED MEMBER</h3>`;
 
   const card = document.createElement("div");
   card.className = "card";
 
   card.innerHTML = `
-      <img src="${member.photo}">
+      <img src="${member.photo}" class="clickable-img">
       <h2>${member.name}</h2>
       <p><strong>Member ID:</strong> ${member.id}</p>
       <p>Root Chapter : ${member.root}</p>
@@ -148,9 +207,14 @@ function showMember(member) {
 }
 
 </script>
-
+<!-- IMAGE MODAL -->
+<div id="imgModal" class="modal">
+  <span class="close">&times;</span>
+  <img class="modal-content" id="modalImg">
+</div>
 </body>
 </html>
+
 
 
 
