@@ -70,7 +70,7 @@ const container = document.getElementById("members");
 const params = new URLSearchParams(window.location.search);
 const memberID = params.get("member");
 
-if (!memberID) {
+if (false) {
 
   container.innerHTML = `
     <div class="card">
@@ -137,6 +137,7 @@ function showMember(member) {
 
 </body>
 </html>
+
 
 
 
