@@ -98,17 +98,17 @@ function showMember(member) {
   card.className = "card";
 
   card.innerHTML = `
-      <img src="${member.photo}">
-      <h2>${member.name}</h2>
-      <p><strong>Member ID:</strong> ${member.id}</p>
-      <p>Root Chapter : ${member.root}</p>
-      <p>I.R Date : ${member.ir}</p>
-      <p>GT : ${member.gt}</p>
-      <p>MI : ${member.mi}</p>
-      <p>CM During IR : ${member.cm}</p>
-      ${statusText}
-      <div id="qr-${member.id}"></div>
-  `;
+    <img src="${member.photo}">
+    <h2>${member.name}</h2>
+    <p><strong>Member ID:</strong> ${member.id}</p>
+    <p>Root Chapter : ${member.root}</p>
+    <p>I.R Date : ${member.ir}</p>
+    <p>GT : ${member.gt}</p>
+    <p>MI : ${member.mi}</p>
+    <p>CM During IR : ${member.cm}</p>
+    ${statusText}
+    <div id="qr-${member.id}"></div>
+`;
 
   container.appendChild(card);
 
@@ -129,6 +129,7 @@ function showMember(member) {
 
 </body>
 </html>
+
 
 
 
