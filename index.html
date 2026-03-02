@@ -208,10 +208,23 @@ function showMember(member) {
 
 // IMAGE CLICK FUNCTION (GLOBAL)
 document.addEventListener("click", function(e) {
+
+  // OPEN IMAGE
   if (e.target.classList.contains("clickable-img")) {
     document.getElementById("imgModal").style.display = "block";
     document.getElementById("modalImg").src = e.target.src;
   }
+
+  // CLOSE when clicking X
+  if (e.target.classList.contains("close")) {
+    document.getElementById("imgModal").style.display = "none";
+  }
+
+  // CLOSE when clicking dark background
+  if (e.target.id === "imgModal") {
+    document.getElementById("imgModal").style.display = "none";
+  }
+
 });
 
 </script>
@@ -222,6 +235,7 @@ document.addEventListener("click", function(e) {
 </div>
 </body>
 </html>
+
 
 
 
